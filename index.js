@@ -4,6 +4,7 @@ console.log('Loading function');
 exports.handler = (event, context, callback) => {
 
     // setup s3 access
+	// decode S3 key
     var aws = require('aws-sdk'), 
         s3 = new aws.S3({endpoint: "https://s3.amazonaws.com"}),
         safeKey    = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, '%20')),
@@ -13,7 +14,7 @@ exports.handler = (event, context, callback) => {
     
     console.log("Received event: " + JSON.stringify(event))
     
-    // did not realize decoding an S3 key could get so hairy :)
+
 
     s3.getObject ( { Bucket: safeBucket, Key: safeKey}, function(err, data) {
         if(err) {
